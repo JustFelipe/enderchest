@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+    id 'net.minecrell.plugin-yml.bukkit' version '0.3.0'
+}
+
+group 'com.github.justfelipe'
+version '0.1-ALPHA'
+
+tasks.build.dependsOn('shadowJar')
+
+repositories {
+    mavenCentral()
+
+    maven { url = 'https://oss.sonatype.org/content/groups/public/' }
+    maven { url = 'https://jitpack.io/' }
+}
+
+dependencies {
+    compileOnly fileTree('libs')
+
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+
+    implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.2.0'
+
+    def lombok = 'org.projectlombok:lombok:1.18.24'
+
+    compileOnly lombok
+    annotationProcessor lombok
+}
+
+bukkit {
+    name = "enderchest"
+    main = 'com.github.justfelipe.enderchest.EnderChestPlugin'
+    author = 'JustFelipe'
+    version = "${project.version}"
+}
+
+shadowJar {
+    archiveName("${project.name}-${project.version}.jar")
+}
+
+compileJava {
+    options.encoding('UTF-8')
+
+    sourceCompatibility('1.8')
+    targetCompatibility('1.8')
+}
